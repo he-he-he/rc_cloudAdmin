@@ -19,72 +19,11 @@ app.use('/static', express.static('static'));
 app.get('/dictionary', function (req, res) {
   var isPaging = req.param('isPaging');
   var pageNum = req.param('pageNum');
-  res.json({
-    totalCount: 10,
-    list: [
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-      { id: 1, code: '123', name: '234234', value: 1, description: 'xx', parentId: 3, creator: 'z', createTime: '33', modifyMan: 'g', modifyTime: 'sj', remark: 'xxxx' },
-
-
-    ]
-  })
-  // request(Api.dictionary+isPaging+'&pageNum='+pageNum, function (error, response, body) {
-  //   if (!error && response.statusCode == 200) {
-  //     res.json(JSON.parse(body));
-
-  //   }
-  // });
+  request(Api.dictionary+isPaging+'&pageNum='+pageNum, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      res.json(JSON.parse(body));
+    }
+  });
 })
 // !test
 app.get('*', function (req, res) {
