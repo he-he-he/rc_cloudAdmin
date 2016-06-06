@@ -1,0 +1,47 @@
+{
+  "name": "cloud",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:webpack": "cross-env NODE_ENV=production webpack --profile --colors  --config webpack.config.js",
+    "build": "npm run build:webpack",
+    "start": "node server.js"
+  },
+  "author": "zhangchuanlong",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.9.0",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-react-transform": "^2.0.2",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "cross-env": "^1.0.7",
+    "css-loader": "^0.23.1",
+    "express": "^4.13.4",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "html-webpack-plugin": "^2.17.0",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
+    "react": "^15.0.2",
+    "react-dom": "^15.0.2",
+    "react-modal": "^1.3.0",
+    "react-router": "^2.4.1",
+    "react-transform-catch-errors": "^1.0.2",
+    "react-transform-hmr": "^1.0.4",
+    "redbox-react": "^1.2.5",
+    "request": "^2.72.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.0",
+    "webpack-dev-middleware": "^1.6.1",
+    "webpack-hot-middleware": "^2.10.0"
+  },
+  "dependencies": {
+    "chart.js": "^2.1.4",
+    "rc-dialog": "^6.0.8",
+    "rc-pagination": "^1.5.3",
+    "rc-table": "^4.1.1"
+  }
+}

@@ -1,0 +1,1 @@
+export ChartJs from './chartjs'
