@@ -24,7 +24,7 @@ export default class PlotTracking extends Chart{
             series: {
                 lines: {show: true}
             },
-            crosshair: {mode: "x"},
+            crosshair: {mode: "xy"},
             grid: {
                 hoverable: true,
                 borderWidth: 0,
