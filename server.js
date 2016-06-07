@@ -18,10 +18,13 @@ app.use('/static', express.static('static'));
 // test
 app.get('/dictionary', function (req, res) {
   var isPaging = req.param('isPaging');
-  var pageNum = req.param('pageNum');
-  request(Api.dictionary+isPaging+'&pageNum='+pageNum, function (error, response, body) {
+  var pageNo = req.param('pageNo');
+  var pageSize=req.param('pageSize')
+  request.get(Api.dictionary+'/?isPaging='+isPaging+'&pageNo='+pageNo+'&pageSize='+pageSize,function (error, response, body) {
     if (!error && response.statusCode == 200) {
       res.json(JSON.parse(body));
+    }else{
+      res.end('a'+error)
     }
   });
 })

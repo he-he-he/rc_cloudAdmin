@@ -4,25 +4,7 @@ import React, {Component} from 'react';
 import Table from 'rc-table';
 import Pager from '../paginations/pager'
 import Dialog from 'rc-dialog';
-const columns = [
-    { title: 'id', dataIndex: 'id', key: 'id', width: 10 },
-    { title: 'code', dataIndex: 'code', key: 'code' },
-    { title: 'name', dataIndex: 'name', key: 'name' },
-    { title: 'value', dataIndex: 'value', key: 'value' },
-    { title: 'description', dataIndex: 'description', key: 'description' },
-    { title: 'parentId', dataIndex: 'parentId', key: 'parentId' },
-    { title: 'creator', dataIndex: 'creator', key: 'creator' },
-    { title: 'createTime', dataIndex: 'createTime', key: 'createTime' },
-    { title: 'modifyMan', dataIndex: 'modifyMan', key: 'modifyMan' },
-    { title: 'modifyTime', dataIndex: 'modifyTime', key: 'modifyTime' },
-    { title: 'remark', dataIndex: 'remark', key: 'remark' },
-    {
-        title: '操作', dataIndex: '', key: '', width: 100, render: function (value, row, index) {
-            console.log(value, row, index)
-            return <div><a href="#">编辑</a>&nbsp; &nbsp; <a href="#">删除</a></div>;
-        },
-    },
-];
+
 class TableCurd extends Component {
     constructor() {
         super();
@@ -39,6 +21,11 @@ class TableCurd extends Component {
         this.onAdd = this.onAdd.bind(this);
     }
     render() {
+        const {columns}=this.props;
+    //         {title: '操作', dataIndex: '', key: '', width: 100, render: function (value, row, index) {
+    //         return <div><a href="#">编辑</a>&nbsp; &nbsp; <a href="#">删除</a></div>;
+    //     }
+    // }
         return (
             <div>
                 <Dialog  visible={this.state.visible}
@@ -90,8 +77,9 @@ class TableCurd extends Component {
                         </div>
                     </div>
                 </div>
-                <Table columns={columns}
+                <Table columns={this.props.columns}
                     data={this.state.data}
+                    rowKey={(record)=>record.id}
                     tableClassName="table table-striped table-bordered"/>
                 <Pager
                     total={this.state.total}
@@ -116,29 +104,27 @@ class TableCurd extends Component {
     onAdd() {
         this.setState({ visible: true })
     }
-    onPageChange(pageNum) {
-        this.onGetData(pageNum);
+    onPageChange(pageNo) {
+        this.onGetData(pageNo);
     }
     onSelectChange(e) {
-        this.setState({ pageSize: e.target.value - 0 });
+        this.setState({ pageSize: e.target.value - 0 },()=>{
+            this.onGetData(1);
+        });
     }
     onInputChange(e) {
 
     }
-    onGetData(pageNum) {
+    onGetData(pageNo) {
         const {url} = this.props;
-        this.setState({ pageNum: pageNum });
+        const {pageSize}=this.state;
         $.ajax({
             url: url,
-            data: { isPaging: true, pageNum: pageNum },
+            data: { isPaging: true, pageNo: pageNo,pageSize:pageSize },
             dataType: 'json',
             success: (data) => {
                 const list = data.list;
-                for (let i = 0; i < list.length; i++) {
-                    list[i].key = list[i].id;
-                }
-                this.setState({ total: data.totalCount, data: list })
-                console.log(data);
+                this.setState({ total: data.totalCount, data: list,pageNo: data.pageNo })
             }
         })
     }
