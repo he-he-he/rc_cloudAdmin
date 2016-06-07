@@ -1,6 +1,45 @@
 import React, {Component} from 'react';
+import {HeadMessager} from "../icon_messager";
 
 class Header extends Component {
+    constructor(){
+        super();
+        this.state = {
+            notification: {
+                type: "notification",
+                title: "notifications",
+                autoUpdate: true,
+                list: [
+                    {message: "这是第1个提示", type: "success"},
+                    {message: "这是第2个提示", type: "warning"},
+                    {message: "这是第3个提示", type: "danger"},
+                    {message: "这是第4个提示", type: "info"}
+                ],
+                click: (type, index, param) => this.spliceListItem(type, index, param)
+            },
+            message: {
+                type: "message",
+                title: "messages",
+                list: [
+                    {message: "这是第1个提示", title: "success"},
+                    {message: "这是第2个提示", title: "warning"},
+                    {message: "这是第3个提示", title: "danger"},
+                    {message: "这是第4个提示", title: "info"}
+                ],
+                click: (type, index, param) => this.spliceListItem(type, index, param)
+            },
+            tasks: {
+                type: "tasks",
+                title: "tasks in program",
+                list: [
+                    {title: "这是第1个提示", message: "40", list: [{type: "success", value: 10}, {type: "warning", value: 30}]},
+                    {title: "这是第2个提示", message: "70", list: [{type: "danger", value: 70}]},
+                    {title: "这是第3个提示", message: "15", list: [{type: "info", value: 15}]}
+                ],
+                click: (type, index, param) => this.spliceListItem(type, index, param)
+            }
+        };
+    }
     render() {
         return (
             <header className="navbar clearfix" id="header">
@@ -48,77 +87,9 @@ class Header extends Component {
                         </li>
                     </ul>
                     <ul className="nav navbar-nav pull-right">
-                        <li className="dropdown" id="header-notification">
-                            <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                                <i className="fa fa-bell"></i>
-                                <span className="badge">7</span>
-                            </a>
-                            <ul className="dropdown-menu notification">
-                                <li className="dropdown-title">
-                                    <span><i className="fa fa-bell"></i> 7 Notifications</span>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <span className="label label-success"><i className="fa fa-user"></i></span>
-                                        <span className="body">
-                                            <span className="message">5 users online.</span>
-                                            <span className="time">
-                                                <i className="fa fa-clock-o"></i>
-                                                <span>Just now</span>
-                                            </span>
-                                        </span>
-                                    </a>
-                                </li>                      
-                                <li className="footer">
-                                    <a href="#">See all notifications <i className="fa fa-arrow-circle-right"></i></a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li className="dropdown" id="header-message">
-                            <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                                <i className="fa fa-envelope"></i>
-                                <span className="badge">3</span>
-                            </a>
-                            <ul className="dropdown-menu inbox">
-                                <li className="dropdown-title">
-                                    <span><i className="fa fa-envelope-o"></i> 3 Messages</span>
-                                    <span className="compose pull-right tip-right" title="Compose message"><i className="fa fa-pencil-square-o"></i></span>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="static/img/avatars/avatar2.jpg" alt="" />
-                                        <span className="body">
-                                            <span className="from">Jane Doe</span>
-                                            <span className="message">
-                                                Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse mole ...
-                                            </span>
-                                            <span className="time">
-                                                <i className="fa fa-clock-o"></i>
-                                                <span>Just Now</span>
-                                            </span>
-                                        </span>
-
-                                    </a>
-                                </li>                            
-                                <li className="footer">
-                                    <a href="#">See all messages <i className="fa fa-arrow-circle-right"></i></a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li className="dropdown" id="header-tasks">
-                            <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                                <i className="fa fa-tasks"></i>
-                                <span className="badge">3</span>
-                            </a>
-                            <ul className="dropdown-menu tasks">
-                                <li className="dropdown-title">
-                                    <span><i className="fa fa-check"></i> 6 tasks in progress</span>
-                                </li>
-                                <li className="footer">
-                                    <a href="#">See all tasks <i className="fa fa-arrow-circle-right"></i></a>
-                                </li>
-                            </ul>
-                        </li>
+                        <HeadMessager {...this.state.notification}/>
+                        <HeadMessager {...this.state.message}/>
+                        <HeadMessager {...this.state.tasks}/>
                         <li className="dropdown user" id="header-user">
                             <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                                 <img alt="" src="static/img/avatars/avatar3.jpg" />
@@ -182,12 +153,24 @@ class Header extends Component {
             </header>
         );
     }
-    
     componentDidMount() {
         handleTeamView();
         handleThemeSkins();
+        var i = this.state.message.list.length;
+        setTimeout(() => {
+            var msg = this.state.notification;
+            msg.list.push({message: "这是第" + (++i) + "个提示", type: "success"});
+            this.setState({notification: msg});
+        }, 2000);
     }
-    
+
+    spliceListItem(type, i, param){
+        var msg = this.state[type], obj = {};
+        msg.list.splice(i, 1);
+        obj[type] = msg;
+        console.log(obj);
+        this.setState(obj);
+    }
 }
 
 export default Header;
