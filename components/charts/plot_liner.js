@@ -11,7 +11,6 @@ export default class PlotLiner extends Chart{
             datas: this.props.datas || [],
             color: this.props.color || ["blue", "red", "yellow", "green"],
         }
-        console.log(this.state.datas);
         this.state.color = this.state.color.map((va) => this.rgbColor(va));
     }
     render(){
