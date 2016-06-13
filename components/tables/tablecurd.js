@@ -31,7 +31,7 @@ class TableCurd extends Component {
                 <Dialog  visible={this.state.visible}
                     animation="slide-fade"
                     maskAnimation="fade"
-                    onClose={this.onClose}
+                    onClose={this.onClose.bind(this)}
                     style={{ width: 600 }}
                     title={<div>第二个弹框</div>}>
                     sssssss
@@ -99,10 +99,10 @@ class TableCurd extends Component {
         e.preventDefault();
     }
     onClose() {
-
+        this.setState({visible: false});
     }
     onAdd() {
-        this.setState({ visible: true })
+        this.setState({ visible: true });
     }
     onPageChange(pageNo) {
         this.onGetData(pageNo);

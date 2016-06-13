@@ -166,10 +166,12 @@ class Header extends Component {
 
     spliceListItem(type, i, param){
         var msg = this.state[type], obj = {};
-        msg.list.splice(i, 1);
-        obj[type] = msg;
-        console.log(obj);
-        this.setState(obj);
+        if(i != "all"){
+            msg.list.splice(i, 1);
+            obj[type] = msg;
+            this.setState(obj);
+        }
+        else alert(i);
     }
 }
 

@@ -21,7 +21,7 @@ export default class HeaderMessager extends Component{
                 <ul className={"dropdown-menu " + this.getUlClassName()}>
                     <Header ex={this.props.type == "message"} icon={this.getHeaderIcon()} title={this.props.list.length + " " + this.props.title}/>
                     {this.makeItem()}
-                    <li className="footer">
+                    <li className="footer" onClick={() => this.fnClick(this.props.type, "all", this.props.param)}>
                         <a href="#">See all {this.props.title} <i className="fa fa-arrow-circle-right"></i></a>
                     </li>
                 </ul>
@@ -44,12 +44,12 @@ export default class HeaderMessager extends Component{
     makeItem(){
         return this.state.list.map((va, i) => {
             switch(this.props.type){
-                case "notification": return (<li key={i} onClick={this.fnClick.bind(this, "notification", i, this.props.param)}><Alert {...va}/></li>);
-                case "message": return (<li key={i} onClick={this.fnClick.bind(this, "message", i, this.props.param)}><Msg {...va}/></li>);
-                case "tasks": return (<li key={i} onClick={this.fnClick.bind(this, "tasks", i, this.props.param)}><Scroll {...va}/></li>);
+                case "notification": return (<Alert {...va}/>);
+                case "message": return (<Msg {...va}/>);
+                case "tasks": return (<Scroll {...va}/>);
                 default: return false;
             }
-        });
+        }).map((va, i) => <li key={i} onClick={this.fnClick.bind(this, this.props.type, i, this.props.param)}>{va}</li>);
     }
     fnClick(type, index, param){
         this.props.click(type, index, param);
