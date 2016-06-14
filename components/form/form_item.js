@@ -19,12 +19,6 @@ const MyInput = React.createClass({
             </div>
         );
     },
-    componentWillReceiveProps(nextProps){
-        console.log(this.props, nextProps);
-    },
-    componentWillUnmount(){
-        console.log(2);
-    },
     makeInput(){
         switch(this.props.type){
             case "text": 

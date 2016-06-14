@@ -1,8 +1,8 @@
 import 'rc-dialog/assets/bootstrap.css';
 import React, {Component} from 'react';
-import {Tables, Boxs,Layout, Models, Forms} from '../../components';
+import {Tables, Boxs,Layout, Models, Forms} from '../../../components';
 import Dialog from 'rc-dialog';
-const {Form, CForm, CFormItem} = Forms;
+const {Form, CForm, CFormItem, VForm} = Forms;
 const {Row,Col}=Layout;
 const {TableCurd, TableList} = Tables;
 const {Box} = Boxs;
@@ -74,13 +74,23 @@ class Curd extends Component {
                 { name: "备注", defaultValue: "", dataField: 'remark', valid: "isEmptyString", validError: "", type: "textarea", require: true }
             ],
             dialogVisible: false,
-            dialogType: "new"
+            dialogType: "new",
+            bbbb: "bbbb"
         }
+    }
+    bbbb(){
+        this.setState({bbbb: "dddd", dialogVisible: true});
+    }
+    bbbbChange(data){
+        var value = {};
+        value[data.name] = data.value;
+        this.setState(value);
     }
     render() {
         return (
             <Row>
                 <Col>
+                    <button onClick={this.bbbb.bind(this)}>ok</button>
                     <Box title="字典">
                         <CForm {...this.state.search} fnSubmit={this.onSearch.bind(this)}/>
                         <TableList 
@@ -98,6 +108,7 @@ class Curd extends Component {
                             onClose={this.dialogClose.bind(this)}
                             style={{width: 600}}
                             title={<div>{(this.state.dialogType == "new" ? "添加新" : "修改") + this.state.title}</div>}>
+                            <VForm name="bbbb" value={this.state.bbbb} fnChange={this.bbbbChange.bind(this)}/><br />
                             <Form columns={this.state.formColumns}/>
                         </Dialog>
                     </Box>
@@ -128,7 +139,7 @@ class Curd extends Component {
             va.value = obj[va.dataField];
             return va;
         });
-        //this.setState({formColumns: columns, dialogType: type});
+        this.setState({formColumns: columns, dialogType: type});
     }
 
     onSearch(param){

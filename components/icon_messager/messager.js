@@ -19,10 +19,10 @@ export default class HeaderMessager extends Component{
                     {this.makeBadge()}
                 </a>
                 <ul className={"dropdown-menu " + this.getUlClassName()}>
-                    <Header ex={this.props.type == "message"} icon={this.getHeaderIcon()} title={this.props.list.length + " " + this.props.title}/>
+                    <Header ex={this.props.type == "message"} icon={this.getHeaderIcon()} title={this.state.list.length + " " + this.props.title}/>
                     {this.makeItem()}
                     <li className="footer" onClick={() => this.fnClick(this.props.type, "all", this.props.param)}>
-                        <a href="#">See all {this.props.title} <i className="fa fa-arrow-circle-right"></i></a>
+                        <a href="#"> 查看所有{this.props.title} <i className="fa fa-arrow-circle-right"></i></a>
                     </li>
                 </ul>
             </li>

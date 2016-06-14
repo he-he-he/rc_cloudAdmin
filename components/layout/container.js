@@ -6,7 +6,7 @@ class Container extends Component {
             <div id="main-content">
                 <div className="container">
                     <div className="row">
-                        <div id="content" className="col-lg-12">
+                        <div id="content" className="col-lg-12" style={{border: "none"}}>
                             {this.props.children}
                             <div className="footer-tools">
                                 <span className="go-top">

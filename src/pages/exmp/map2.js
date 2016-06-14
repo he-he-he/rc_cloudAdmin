@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Layout, Boxs, Maps, Forms} from '../../components'
+import {Layout, Boxs, Maps, Forms} from '../../../components'
 const {Row, Col} = Layout;
 const {Box} = Boxs;
 const {MapSearch, Map} = Maps;

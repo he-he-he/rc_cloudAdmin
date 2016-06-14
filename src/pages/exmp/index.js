@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Layout, Boxs} from '../../components'
+import {Layout, Boxs} from '../../../components'
 const {Row, Col} = Layout;
 const {Box, BoxTab, DashBox} = Boxs;
 
@@ -9,7 +9,7 @@ const tabs = [
 ]
 export default class Index extends Component {
     render() {
-
+        
         return (
             <div>
                 <Row>

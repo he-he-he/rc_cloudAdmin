@@ -7,7 +7,7 @@ class Header extends Component {
         this.state = {
             notification: {
                 type: "notification",
-                title: "notifications",
+                title: "报警信息",
                 autoUpdate: true,
                 list: [
                     {message: "这是第1个提示", type: "success"},
@@ -19,7 +19,7 @@ class Header extends Component {
             },
             message: {
                 type: "message",
-                title: "messages",
+                title: "通知信息",
                 list: [
                     {message: "这是第1个提示", title: "success"},
                     {message: "这是第2个提示", title: "warning"},
@@ -30,7 +30,7 @@ class Header extends Component {
             },
             tasks: {
                 type: "tasks",
-                title: "tasks in program",
+                title: "任务信息",
                 list: [
                     {title: "这是第1个提示", message: "40", list: [{type: "success", value: 10}, {type: "warning", value: 30}]},
                     {title: "这是第2个提示", message: "70", list: [{type: "danger", value: 70}]},
@@ -40,7 +40,7 @@ class Header extends Component {
             }
         };
     }
-    render() {
+    render(){
         return (
             <header className="navbar clearfix" id="header">
                 <div className="container">
@@ -63,26 +63,26 @@ class Header extends Component {
                         <li className="dropdown">
                             <a href="#" className="team-status-toggle dropdown-toggle tip-bottom" data-toggle="tooltip" title="Toggle Team View">
                                 <i className="fa fa-users"></i>
-                                <span className="name">Team Status</span>
+                                <span className="name">团队状态</span>
                                 <i className="fa fa-angle-down"></i>
                             </a>
                         </li>
                         <li className="dropdown">
                             <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                                 <i className="fa fa-cog"></i>
-                                <span className="name">Skins</span>
+                                <span className="name">主题</span>
                                 <i className="fa fa-angle-down"></i>
                             </a>
                             <ul className="dropdown-menu skins">
                                 <li className="dropdown-title">
-                                    <span><i className="fa fa-leaf"></i> Theme Skins</span>
+                                    <span><i className="fa fa-leaf"></i> 主题列表</span>
                                 </li>
-                                <li><a href="#" data-skin="default">Subtle (default ) </a></li>
-                                <li><a href="#" data-skin="night">Night</a></li>
-                                <li><a href="#" data-skin="earth">Earth</a></li>
-                                <li><a href="#" data-skin="utopia">Utopia</a></li>
-                                <li><a href="#" data-skin="nature">Nature</a></li>
-                                <li><a href="#" data-skin="graphite">Graphite</a></li>
+                                <li><a href="#" data-skin="default">蓝色 (默认 ) </a></li>
+                                <li><a href="#" data-skin="night">黑色</a></li>
+                                <li><a href="#" data-skin="earth">棕色</a></li>
+                                <li><a href="#" data-skin="utopia">乌托邦</a></li>
+                                <li><a href="#" data-skin="nature">自然</a></li>
+                                <li><a href="#" data-skin="graphite">深灰</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -93,14 +93,14 @@ class Header extends Component {
                         <li className="dropdown user" id="header-user">
                             <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                                 <img alt="" src="static/img/avatars/avatar3.jpg" />
-                                <span className="username">John Doe</span>
+                                <span className="username">管理员</span>
                                 <i className="fa fa-angle-down"></i>
                             </a>
                             <ul className="dropdown-menu">
-                                <li><a href="#"><i className="fa fa-user"></i> My Profile</a></li>
-                                <li><a href="#"><i className="fa fa-cog"></i> Account Settings</a></li>
-                                <li><a href="#"><i className="fa fa-eye"></i> Privacy Settings</a></li>
-                                <li><a href="login.html"><i className="fa fa-power-off"></i> Log Out</a></li>
+                                <li><a href="#"><i className="fa fa-user"></i> 关于我</a></li>
+                                <li><a href="#"><i className="fa fa-cog"></i> 用户设置</a></li>
+                                <li><a href="#"><i className="fa fa-eye"></i> 隐私设置</a></li>
+                                <li><a href="/login"><i className="fa fa-power-off"></i> 退出登录</a></li>
                             </ul>
                         </li>
                     </ul>

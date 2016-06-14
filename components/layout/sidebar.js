@@ -11,7 +11,7 @@ class Sidebar extends Component {
                 <div className="sidebar-menu nav-collapse">
                     <div className="divide-20"></div>
                     <div id="search-bar">
-                        <input className="search" type="text" placeholder="Search"/>
+                        <input className="search" type="text" placeholder="搜索"/>
                         <i className="fa fa-search search-icon"></i>
                     </div>
                     <ul>

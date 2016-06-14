@@ -5,7 +5,7 @@ export default class MsgItem extends Component{
         super();
         this.state = {
             time: new Date(),
-            timeMsg: "Just now"
+            timeMsg: "刚刚"
         }
     }
     componentDidMount(){
@@ -27,7 +27,7 @@ export default class MsgItem extends Component{
                 str += (time / 60).toFixed(0) + " 分钟";
                 time = time % 60;
             }
-            str = str.length > 0 ? str + "前" : "Just now";
+            str = str.length > 0 ? str + "前" : "刚刚";
             this.setState({timeMsg: str});
             this.makeTimeMsg();
         }, 60000);

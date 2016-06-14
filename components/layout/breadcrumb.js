@@ -10,12 +10,12 @@ class Breadcrumb extends Component {
                         <ul className="breadcrumb">
                             <li>
                                 <i className="fa fa-home"></i>
-                                <a href="index.html">Home</a>
+                                <a href="index.html">主页</a>
                             </li>
                             <li>
-                                <a href="#">Form Elements</a>
+                                <a href="#">二级目录</a>
                             </li>
-                            <li>Forms</li>
+                            <li>当前目录</li>
                         </ul>
                     </div>
                 </div>
