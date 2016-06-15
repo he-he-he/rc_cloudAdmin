@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import CFormButton from "./cformButton";
 
 export default class CFormItem extends Component{
     render(){
@@ -70,6 +71,7 @@ export default class CFormItem extends Component{
                         /> {va.text} 
                     </label>
                 );
+            case "button": return <CFormButton {...this.props}/>;
             default: return "";
         }
     }

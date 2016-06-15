@@ -6,3 +6,4 @@ export Modal from './modals/modal';
 export * as Charts from './charts';
 export * as Models from "./modals";
 export * as Forms from "./form";
+export * as Menus from "./menus";

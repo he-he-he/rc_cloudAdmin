@@ -2,8 +2,14 @@ import React from 'react';
 import { browserHistory, Router, Route, IndexRoute, Redirect} from 'react-router';
 import Master from "../pages/master";
 import Main from '../pages/main';
-
-const Index = (location, cb) => {
+/*system部分*/
+const Dictionary = (location, cb) => {
+  require.ensure([], require => {
+    cb(null, require('../pages/system/dictionary').default);
+  })
+}
+/*exmp部分*/
+const ExmpIndex = (location, cb) => {
   require.ensure([], require => {
     cb(null, require('../pages/exmp/index').default);
   })
@@ -49,8 +55,11 @@ const Routes = () => {
     <Router history={browserHistory}>
       <Route path="/" component={Master}>
         <IndexRoute getComponent={Login} name="首页"/>
+        <Route path="system" component={Main}>
+          <Route path="dictionary" getComponent={Dictionary} name="字典管理"/>
+        </Route>
         <Route path="exmp" component={Main}>
-          <IndexRoute getComponent={Index} name="首页"/>
+          <IndexRoute getComponent={ExmpIndex} name="首页"/>
           <Route path="map" getComponent={Baimap} name="搜索地图"/>
           <Route path="map2" getComponent={Map2} name="概览地图"/>
           <Route path="curd" getComponent={Curd} name="列表"/>

@@ -30,15 +30,21 @@ app.use('/static', express.static('static'));
 
 // test
 app.get('/dictionary', function (req, res) {
-  var isPaging = req.param('isPaging');
-  var pageNo = req.param('pageNo');
-  var pageSize=req.param('pageSize')
-  request.get(Api.testServer+'/dictionary?isPaging='+isPaging+'&pageNo='+pageNo+'&pageSize='+pageSize, function (error, response, body) {
+  var param = "";
+  if(req.param('isPaging')) param += "&isPaging=" + req.param('isPaging');
+  if(req.param('pageNo')) param += "&pageNo=" + req.param('pageNo');
+  if(req.param('pageSize')) param += "&pageSize=" + req.param('pageSize');
+  if(req.param('name')) param += "&name=" + req.param('name');
+  if(req.param('code')) param += "&code=" + req.param('code');
+  if(req.param('parentId')) param += "&parentId=" + req.param('parentId');
+  param = param.length > 0 ? "?" + param.substr(1) : "";
+  console.log(Api.testServer+'/dictionary' + param);
+  request.get(Api.testServer+'/dictionary' + param, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         res.json(JSON.parse(body));
     }
     else if(!error && response.statusCode == 204){
-        res.json([]);
+        res.json({list: []});
     }
     else{
         res.end('a '+error)
@@ -47,14 +53,15 @@ app.get('/dictionary', function (req, res) {
 });
 app.get('/rtGpsData', function (req, res) {
   var param = "";
-  if(req.param('carCode')) param += "carCode=" + req.param('carCode');
+  if(req.param('carCode')) param += "&carCode=" + req.param('carCode');
   if(req.param('carPlate')) param += "&carPlate=" + req.param('carPlate');
   if(req.param('simNumber')) param += "&simNumber=" + req.param('simNumber');
   if(req.param('accStatus')) param += "&accStatus=" + req.param('accStatus');
   if(req.param('logitude')) param += "&logitude=" + req.param('logitude');
   if(req.param('latitude')) param += "&latitude=" + req.param('latitude');
-  console.log(Api.testServer+'/rtGpsData?' + param);
-  request.get(Api.testServer+'/rtGpsData?' + param, function (error, response, body) {
+  param = param.length > 0 ? "?" + param.substr(1) : "";
+  console.log(Api.testServer+'/rtGpsData' + param);
+  request.get(Api.testServer+'/rtGpsData' + param, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         res.json(JSON.parse(body));
     }
@@ -73,7 +80,9 @@ app.get('/json/:file', function(req, res){
 app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
-
+app.get('*/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 app.listen(3000, function (err) {
   if (err) {
     console.log(err);

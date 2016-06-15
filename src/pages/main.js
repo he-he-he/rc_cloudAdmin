@@ -13,6 +13,7 @@ const menus = [
         id: 1, link: '', name: '车辆定位管理', childs: [
             { id: 3, link: '', name: '车辆分步' },
             { id: 4, link: '', name: '车辆定位' },
+            { id: 4, link: '', name: '车辆追踪' },
             { id: 4, link: '', name: '历史轨迹' },
             { id: 4, link: '', name: '车辆上下线历史纪录' },
             { id: 4, link: '', name: '定位参数管理' }
@@ -40,6 +41,7 @@ const menus = [
                     { id: 4, link: '', name: '车辆维保记录' },
                     { id: 4, link: '', name: '车辆保养提醒' },
                     { id: 4, link: '', name: '车辆设备维修记录' },
+                    { id: 4, link: '', name: '电池均衡管理' },
                     { id: 4, link: '', name: '保养参数管理' }
                 ] 
             },
@@ -57,10 +59,13 @@ const menus = [
         id: 1, link: '', name: '统计分析', childs: [
             { 
                 id: 3, link: '', name: '车辆统计', childs: [
-                    { id: 4, link: '', name: '注册车辆管理' }
+                    { id: 4, link: '', name: '注册车辆统计' },
+                    { id: 4, link: '', name: '在线/离线车辆统计' },
+                    { id: 4, link: '', name: '在线/离线车辆时长统计' },
+                    { id: 4, link: '', name: '售后车辆质量统计' }
                 ] 
             },
-            { id: 4, link: '', name: '历程统计' },
+            { id: 4, link: '', name: '里程统计' },
             { id: 4, link: '', name: '报警统计' },
             { id: 4, link: '', name: '电池包统计' },
             { id: 4, link: '', name: '维保统计' },
@@ -78,7 +83,7 @@ const menus = [
         ] 
     },
     { 
-        id: 1, link: '', name: '系统管理', childs: [
+        id: 1, link: '/system', name: '系统管理', childs: [
             { id: 3, link: '', name: '登陆管理' },
             { id: 4, link: '', name: '角色管理' },
             { id: 4, link: '', name: '权限管理' },
@@ -88,19 +93,20 @@ const menus = [
             { id: 4, link: '', name: '日志管理' },
             { 
                 id: 4, link: '', name: '系统参数管理', childs: [
-                    { id: 4, link: '', name: '定位参数管理' },
-                    { id: 4, link: '', name: 'CAN参数管理' },
-                    { id: 4, link: '', name: '报警参数管理' },
-                    { id: 4, link: '', name: '保养参数管理' },
-                    { id: 4, link: '', name: '升级参数管理' }
+                    { id: 4, link: '', name: '车辆定位参数管理' },
+                    { id: 4, link: '', name: '车辆CAN参数管理' },
+                    { id: 4, link: '', name: '车辆报警参数管理' },
+                    { id: 4, link: '', name: '车辆保养参数管理' },
+                    { id: 4, link: '', name: '车辆升级参数管理' },
+                    { id: 4, link: '', name: '售后车辆质量监控参数管理' }
                 ] 
             },
-            { id: 4, link: '', name: '字典管理' },
+            { id: 4, link: '/system/dictionary', name: '字典管理' },
             { id: 4, link: '', name: '公告通知管理' }
         ] 
     },
     {
-        id: 2, link: '', name: '示例', childs: [
+        id: 2, link: '/exmp', name: '示例', childs: [
             { id: 3, link: '/exmp/map', name: '搜索地图' },
             { id: 4, link: '/exmp/map2', name: '概览地图' },
             { id: 5, link: '/exmp/curd', name: '字典表' },
