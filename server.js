@@ -29,22 +29,36 @@ app.use(require('webpack-hot-middleware')(compiler));
 app.use('/static', express.static('static'));
 
 // test
-app.get('/dictionary', function (req, res) {
+app.get('/surface/dictionary', function (req, res) {
   var param = "";
   if(req.param('isPaging')) param += "&isPaging=" + req.param('isPaging');
   if(req.param('pageNo')) param += "&pageNo=" + req.param('pageNo');
   if(req.param('pageSize')) param += "&pageSize=" + req.param('pageSize');
-  if(req.param('name')) param += "&name=" + req.param('name');
-  if(req.param('code')) param += "&code=" + req.param('code');
+  if(req.param('name')) param += "&name=" + encodeURI(req.param('name'));
+  if(req.param('code')) param += "&code=" + encodeURI(req.param('code'));
   if(req.param('parentId')) param += "&parentId=" + req.param('parentId');
   param = param.length > 0 ? "?" + param.substr(1) : "";
-  console.log(Api.testServer+'/dictionary' + param);
-  request.get(Api.testServer+'/dictionary' + param, function (error, response, body) {
+  request.get(Api.testServer+'dictionary' + param, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         res.json(JSON.parse(body));
     }
     else if(!error && response.statusCode == 204){
-        res.json({list: []});
+        res.json({list: [], totalCount: 0, pageSize: 10, pageNo: 1,});
+    }
+    else{
+        res.end('a '+error)
+    }
+  });
+});
+app.delete("/surface/dictionary/:id", function(req, res){
+  var param = "";
+  if(req.param('id')) param += "/" + req.param('id');
+  console.log(req.param("id"));
+  request.delete(Api.testServer+'dictionary' + param, function (error, response, body) {
+    console.log(Api.testServer+'dictionary' + param, response.statusCode);
+    //res.json(JSON.parse({statusCode: response.statusCode, error: error, body: body}));
+    if (!error && response.statusCode == 200) {
+        res.json({res: true});
     }
     else{
         res.end('a '+error)
@@ -60,13 +74,12 @@ app.get('/rtGpsData', function (req, res) {
   if(req.param('logitude')) param += "&logitude=" + req.param('logitude');
   if(req.param('latitude')) param += "&latitude=" + req.param('latitude');
   param = param.length > 0 ? "?" + param.substr(1) : "";
-  console.log(Api.testServer+'/rtGpsData' + param);
-  request.get(Api.testServer+'/rtGpsData' + param, function (error, response, body) {
+  request.get(Api.testServer+'rtGpsData' + param, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         res.json(JSON.parse(body));
     }
     else if(!error && response.statusCode == 204){
-        res.json({list: []});
+        res.json({list: [], totalCount: 0, pageSize: 10, pageNo: 1,});
     }
     else{
         res.end('a '+error)

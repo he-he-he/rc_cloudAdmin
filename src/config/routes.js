@@ -53,21 +53,16 @@ const Error = () => {
 const Routes = () => {
   return (
     <Router history={browserHistory}>
-      <Route path="/" component={Master}>
-        <IndexRoute getComponent={Login} name="首页"/>
-        <Route path="system" component={Main}>
-          <Route path="dictionary" getComponent={Dictionary} name="字典管理"/>
-        </Route>
-        <Route path="exmp" component={Main}>
-          <IndexRoute getComponent={ExmpIndex} name="首页"/>
-          <Route path="map" getComponent={Baimap} name="搜索地图"/>
-          <Route path="map2" getComponent={Map2} name="概览地图"/>
-          <Route path="curd" getComponent={Curd} name="列表"/>
-          <Route path="charts" getComponent={Charts} name="图表"/>
-        </Route>
-        <Route path="login" getComponent={Login}/>
-        <Route path="500" getComponent={Error}/>
+      <Route path="/" component={Main}>
+        <Route path="dictionary" getComponent={Dictionary} name="字典管理"/>
+        <IndexRoute getComponent={ExmpIndex} name="首页"/>
+        <Route path="map" getComponent={Baimap} name="搜索地图"/>
+        <Route path="map2" getComponent={Map2} name="概览地图"/>
+        <Route path="curd" getComponent={Curd} name="列表"/>
+        <Route path="charts" getComponent={Charts} name="图表"/>
       </Route>
+      <Route path="login" getComponent={Login}/>
+      <Route path="500" getComponent={Error}/>
       <Route path="*" component={NoMatch}/>
     </Router>
   )

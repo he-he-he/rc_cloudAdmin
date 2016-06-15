@@ -2,12 +2,6 @@ import React, {Component} from "react";
 import MenuItem from "./menu_item";
 
 export default class MenuList extends Component{
-    constructor(){
-        super();
-        this.state = {
-            active: 0
-        };
-    }
     render(){
         return (
             <div className={this.props.className}>
@@ -17,7 +11,7 @@ export default class MenuList extends Component{
                         <MenuItem 
                             key={"item_" + i} 
                             text={item.text} 
-                            className={this.state.active == i ? "active" : ""} 
+                            className={this.props.active == i ? "active" : ""} 
                             icon={item.icon} 
                             fnClick={() => {this.onClick(item.item, i)}}
                             fnBTClick={() => {this.onBTClick(item.item, i)}}
@@ -27,18 +21,23 @@ export default class MenuList extends Component{
             </div>
         );
     }
+    componentDidMount(){
+        if(this.props.auto && this.props.list[this.props.active]){
+            this.onClick(this.props.list[this.props.active].item, this.props.active);
+        }
+    }
     
     onClick(item, index){
-        console.log(1, item, index);
         this.setState({active: index});
         this.props.fnItemClick(item, index);
     }
     onBTClick(item, index){
-        console.log(2, item, index);
         this.props.fnItemBTClick(item, index);
     }
 }
 MenuList.defaultProps = {
+    active: 0,
+    auto: false,
     className: "",
     title: "",
     list: [],

@@ -101,16 +101,16 @@ const menus = [
                     { id: 4, link: '', name: '售后车辆质量监控参数管理' }
                 ] 
             },
-            { id: 4, link: '/system/dictionary', name: '字典管理' },
+            { id: 4, link: '/dictionary', name: '字典管理' },
             { id: 4, link: '', name: '公告通知管理' }
         ] 
     },
     {
-        id: 2, link: '/exmp', name: '示例', childs: [
-            { id: 3, link: '/exmp/map', name: '搜索地图' },
-            { id: 4, link: '/exmp/map2', name: '概览地图' },
-            { id: 5, link: '/exmp/curd', name: '字典表' },
-            { id: 6, link: '/exmp/charts', name: '图表' }
+        id: 2, link: '', name: '示例', childs: [
+            { id: 3, link: '/map', name: '搜索地图' },
+            { id: 4, link: '/map2', name: '概览地图' },
+            { id: 5, link: '/curd', name: '字典表' },
+            { id: 6, link: '/charts', name: '图表' }
         ]
     }
 ]
