@@ -34,18 +34,11 @@ export default class Directary extends Component{
                 nextPage: 0,
                 prePage: 0
             },
-            listColumns: [                
-                {title: '标识', dataIndex: 'id', key: 'id' },
-                {title: '编码', dataIndex: 'code', key: 'code' },
-                {title: '名称', dataIndex: 'name', key: 'name' },
-                {title: '值', dataIndex: 'value', key: 'value' },
-                {title: '描述', dataIndex: 'description', key: 'description' },
-                //{title: 'parentId', dataIndex: 'parentId', key: 'parentId' },
-                //{title: 'creator', dataIndex: 'creator', key: 'creator' },
-                //{title: 'createTime', dataIndex: 'createTime', key: 'createTime' },
-                //{title: 'modifyMan', dataIndex: 'modifyMan', key: 'modifyMan' },
-                //{title: 'modifyTime', dataIndex: 'modifyTime', key: 'modifyTime' },
-                {title: '备注', dataIndex: 'remark', key: 'remark' }
+            listColumns: [
+                {title: '分类名称', dataIndex: 'parentName', key: 'parentName' },
+                {title: '字典项名称', dataIndex: 'name', key: 'name' },
+                {title: '顺序号', dataIndex: 'serialNo', key: 'serialNo' },
+                {title: '描述', dataIndex: 'description', key: 'description' }
             ],
             formColumns: [
                 {title: "标识", value: "", field: 'id', valid: {}, type: "hidden"},
@@ -53,13 +46,14 @@ export default class Directary extends Component{
                 {title: "名称", value: "", field: 'name', valid: {maxLen:30}, type: "text"},
                 {title: "值", value: "", field: 'value', valid: "isNumeric", type: "text"},
                 {title: "描述", value: "", field: 'description', valid: "isExisty", type: "textarea"},
-                {title: "父级", value: "", field: 'parentId', valid: "isNumeric", type: "textarea"},
+                {title: "父级", value: "", field: 'parentId', valid: "isNumeric", type: "select", list: [{text: "父级", value: 0}]},
+                {title: "顺序号", value: "", field: 'serialNo', valid: "isNumeric", type: "text"},
                 {title: "备注", value: "", field: 'remark', valid: "isEmptyString", type: "textarea"}
             ],
             formButtons: [
-                {type: "submit", text: "搜索", fnClick: this.onItemAdd.bind(this)}
+                {type: "submit", text: "确定", fnClick: this.onItemAdd.bind(this)}
             ],
-            formDefault: {id: 0, code: "", name: "", value: "", description: "", parentId: 0, remark: ""},
+            formDefault: {id: 0, code: "", name: "", value: "", description: "", parentId: 0, serialNo: 0, remark: ""},
             dialogVisible: false,
             dialogType: "new"
         };
@@ -68,15 +62,16 @@ export default class Directary extends Component{
         return (
             <Row>
                 <Col>
-                    <Box title="地图">
+                    <Box title="数据字典">
                         <div className="col-lg-2 col-md-3" style={{paddingLeft: 0}}>
                             <MenuList 
-                                title="全部分类" 
+                                title="全部字典分类" 
                                 list={this.state.menuList}
                                 active={this.state.active}
+                                fnTitleClick={() => { this.onMenuItemClick({parentId: ""}, -1); }}
                                 fnTitleBTClick={this.onItemAdd.bind(this, -1)}
                                 fnItemClick={(item, index) => { this.onMenuItemClick(item, index); }}
-                                fnItemBTClick={(item, index) => { this.onItemDelete(item.id); }}
+                                fnItemBTClick={(item, index) => { this.onItemDelete(item.id, true); }}
                             />
                         </div>
                         <div className="col-lg-10 col-md-9" style={{padding: 0}}>
@@ -90,7 +85,7 @@ export default class Directary extends Component{
                             </form>
                             <div className="col-lg-1 col-md-2 col-xs-2" style={{paddingLeft: 0}}>
                                 <div className="input-group" style={{width: "100%"}}>
-                                    <button className="btn btn-info" type="button" style={{width: "100%"}} onClick={() => { this.onItemAdd(this.state.active);}}>添加</button>
+                                    <button className="btn btn-info" type="button" style={{width: "100%"}} onClick={() => { this.onItemAdd(this.state.active);}}>新增字典项</button>
                                 </div>
                             </div>
                             <span className="clearfix"/>
@@ -122,14 +117,13 @@ export default class Directary extends Component{
     }
     componentDidMount(){
         this.getTypes(true);
-        console.log(this.refs.dialog, this.refs.dialog.refs);
     }
 
     getDatas(param){        
         param = Object.assign({}, this.state.params, param);
         $.ajax({
             type: "get",
-            url: "/json/dictionary.json", //"/surface/dictionary",
+            url: "/surface/dictionary",
             data: this.makeParam(param),
             dataType: 'json',
             success: (data) => {
@@ -144,8 +138,6 @@ export default class Directary extends Component{
     }
 
     getTypes(bo = false){
-        this.makeMenuList([], bo);
-        /*
         $.ajax({
             type: "get",
             url: "/surface/dictionary",
@@ -155,7 +147,6 @@ export default class Directary extends Component{
                 this.makeMenuList(data.list, bo);
             }
         });
-        */
     }
     makeMenuList(data, bo){
         var list = data.map((item, i) => { return {icon: "times", text: item.name, item: item}; });
@@ -170,25 +161,62 @@ export default class Directary extends Component{
         this.setState({menuList: list, active: active});
     }    
 
-    deleteData(id){
+    //"{id:0,code:\"这是第一个示例\",name:\"这是第一个示例\",value:1,description:\"这是第一个示例\",parentId:0,remark:\"这是第一个示例\",creator:\"000\",modifyMan:\"000\"}"
+    addUpdateData(obj){
+        var type = this.state.dialogType;
+        $.ajax({
+            type: type == "new" ? "post" : "put",
+            url: "/surface/dictionary" + (type == "new" ? "" : "/" + obj.id),
+            data: obj,
+            dataType: "json",
+            success: (data) => {
+                if(data.res){
+                    this.getTypes(true);
+                }
+            }
+        });
+    }
+
+    deleteData(id, bo){
         $.ajax({
             type: "delete",
             url: "/surface/dictionary/" + id,
             dataType: 'json',
             success: (data) => {
-                this.getDatas();
+                if(data.res){
+                    if(bo) this.getTypes();
+                    var param = Object.assign({}, this.state.params, {parentId: this.state.menuList[this.state.active + 1] ? this.state.menuList[this.state.active + 1].item.id : ""});
+                    this.getDatas(param);
+                }
             }
         });
     }
     
     makeFormColumns(obj = {}){
+        var type = obj.id && obj.id > 0 ? "update" : "new";
         var columns = Object.assign([], this.state.formColumns);
         columns = columns.map((va, i) => {
             va.value = obj[va.field] !== null && obj[va.field] !== undefined ? obj[va.field] : "";
             return va;
         });
-        this.setState({formColumns: columns});
+        var list = this.state.menuList.map((va, i) => {
+            return {text: va.item.name, value: va.item.id};
+        });
+        list.unshift({text: "父级", value: 0});
+        for(var i = 0, z = columns.length; i < z; i++)
+            if(columns[i].field == "parentId") columns[i].list = list;
+        this.setState({formColumns: columns, dialogType: type});
     };
+    makeFormSelectList(){
+        var list = this.state.menuList.map((va, i) => {
+            return {text: va.name, value: va.id};
+        });
+        list.unshift({text: "父级", value: 0});
+        var columns = Object.assign([], this.state.formColumns);
+        for(var i = 0, z = columns.length; i < z; i++)
+            if(columns[i].field == "parentId") columns[i].list = list;
+        this.setState({formColumns: columns});
+    }
     dialogClose(){
         this.setState({dialogVisible: false});
     }
@@ -203,7 +231,7 @@ export default class Directary extends Component{
         this.getDatas({pageSize: pageSize});
     }    
     onItemAdd(index){
-        var obj = Object.assign({}, this.state.formDefault, {parentId: this.state.menuList[index] ? this.state.menuList[index].id : 0});
+        var obj = Object.assign({}, this.state.formDefault, {parentId: this.state.menuList[index] ? this.state.menuList[index].item.id : 0});
         this.makeFormColumns(obj);
         this.dialogOpen();
     }
@@ -212,8 +240,9 @@ export default class Directary extends Component{
         this.makeFormColumns(obj);
         this.dialogOpen();
     }
-    onItemDelete(id){
-        if(confirm("确定要删除选定的目标？")) this.deleteData(id);
+    onItemDelete(id, bo){
+        bo = bo || false;
+        if(confirm("确定要删除选定的目标？")) this.deleteData(id, bo);
     }
 
     onMenuItemClick(item, index){
@@ -227,11 +256,12 @@ export default class Directary extends Component{
             param = {isPaging: true, pageNo: 1, pageSize: this.state.params.pageSize, name: param.name, parentId: ""};
             this.setState({active: -1});
         }
-        console.log(param);
         this.getDatas(param);
     }
 
     onFormSubmit(values){
         console.log(values);
+        this.addUpdateData(values);
+        this.dialogClose();
     }
 }

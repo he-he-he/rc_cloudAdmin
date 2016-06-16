@@ -71,7 +71,7 @@ export default class Login extends Component {
         else value.passwordRes = "";
         if(bo) {
             setTimeout(() => {
-                if(this.state.account == "admin" && this.state.password == "admin") window.location.href = "/exmp";
+                if(this.state.account == "admin" && this.state.password == "admin") window.location.href = "/";
                 else { this.setState({passwordRes: "登陆失败 用户名或密码错误"}); }
             }, 500);
         }

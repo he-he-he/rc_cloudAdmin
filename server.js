@@ -1,11 +1,15 @@
 var path = require('path');
 var express = require('express');
 var webpack = require('webpack');
+var body = require("body-parser");
 var config = require('./webpack.dev.config');
 var request = require('request');
 var app = express();
 var compiler = webpack(config);
 var Api = require('./api');
+
+app.use(body.json());
+app.use(body.urlencoded({extended: true}));
 
 var callback = (error, response, body) => {
     if (!error && response.statusCode == 200) {
@@ -62,6 +66,45 @@ app.delete("/surface/dictionary/:id", function(req, res){
     }
     else{
         res.end('a '+error)
+    }
+  });
+});
+app.post("/surface/dictionary", function(req, res){
+  var body = JSON.stringify(req.body);
+  var option = {
+    method: "post",
+    url: Api.testServer+'dictionary',
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8"
+    },
+    body: body
+  };
+  request(option, function(error, response, body){
+    if (!error && response.statusCode == 200) {
+        res.json({res: true});
+    }
+    else{
+        res.end('a '+error)
+    }
+  });
+});app.put("/surface/dictionary/:id", function(req, res){
+  var body = JSON.stringify(req.body);
+  var param = "";
+  if(req.param('id')) param += "/" + req.param('id');
+  var option = {
+    method: "put",
+    url: Api.testServer+'dictionary/' + param,
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8"
+    },
+    body: body
+  };
+  request(option, function(error, response, body){
+    if (!error && response.statusCode == 200) {
+        res.json({res: true});
+    }
+    else{
+        res.end(body);
     }
   });
 });

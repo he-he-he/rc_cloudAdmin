@@ -6,9 +6,6 @@ import VFormButton from "./vform_buttons";
 export default class VForm extends VFormBase{
     constructor(props){
         super(props);
-        this.values = {};
-        for(var i = 0, z = props.columns.length; i < z; i++)
-            this.values[props.columns[i].field] = props.columns[i].value;
     }
     render(){
         return (
@@ -27,19 +24,24 @@ export default class VForm extends VFormBase{
             </div>
         );
     }
+    componentDidMount(){
+        this.makeValues();
+    }
+    componentDidUpdate(){
+        this.makeValues();
+    }
 
     makeValues(){
         var values = {};
         for(var i = 0, z = this.props.columns.length; i < z; i++)
             values[this.props.columns[i].field] = this.props.columns[i].value;
-        
+        this.values = values;
     }
 
     onChange(value){
         var va = {};
         va[value.field] = value.value;
-        va = Object.assign({}, this.values, va);
-        this.values =va;
+        this.values =Object.assign({}, this.values, va);
         this.props.fnChange(value);
     }
     onSubmit(){

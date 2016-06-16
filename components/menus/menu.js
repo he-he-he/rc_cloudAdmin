@@ -6,7 +6,7 @@ export default class MenuList extends Component{
         return (
             <div className={this.props.className}>
                 <div className="list-group">
-                    <MenuItem text={this.props.title} className="title" icon="plus" fnBTClick={this.props.fnTitleBTClick}/>
+                    <MenuItem text={this.props.title} className="title" icon="plus" fnClick={this.props.fnTitleClick} fnBTClick={this.props.fnTitleBTClick}/>
                     {this.props.list.map((item, i) => 
                         <MenuItem 
                             key={"item_" + i} 
@@ -41,6 +41,7 @@ MenuList.defaultProps = {
     className: "",
     title: "",
     list: [],
+    fnTitleClick: function(){},
     fnTitleBTClick: function(){},
     fnItemClick: function(){},
     fnItemBTClick: function(){}

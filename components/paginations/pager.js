@@ -1,6 +1,7 @@
 require('rc-pagination/assets/index.css');
 import React, {Component} from 'react';
 import Pagination from 'rc-pagination';
+
 class Pager extends Component {
     render() {
         const {total, current, pageSize,onChange,onSelectChange} = this.props;
@@ -19,8 +20,9 @@ class Pager extends Component {
                         total={total}
                         pageSize={pageSize}
                         current={current}
-                        onChange={onChange}/>
-
+                        onChange={onChange}
+                        showQuickJump
+                    />
                 </div>
             </div>
 

@@ -5,7 +5,7 @@ const {Header, Sidebar, Container, Breadcrumb} = Layout;
 const menus = [
     { 
         id: 1, link: '', name: '概览', childs: [
-            { id: 3, link: '/index', name: '首页' },
+            { id: 3, link: '/', name: '首页' },
             { id: 4, link: '', name: '车辆分步' }
         ] 
     },
@@ -76,7 +76,7 @@ const menus = [
         id: 1, link: '', name: '基础数据管理', childs: [
             { id: 3, link: '', name: '经销商管理' },
             { id: 4, link: '', name: '供应商管理' },
-            { id: 4, link: '', name: '车辆管理' },
+            { id: 4, link: '/vehicle', name: '车辆管理' },
             { id: 4, link: '', name: '车辆设备管理' },
             { id: 4, link: '', name: '车主管理' },
             { id: 4, link: '', name: '服务站管理' }

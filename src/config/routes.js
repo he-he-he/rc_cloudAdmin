@@ -2,6 +2,12 @@ import React from 'react';
 import { browserHistory, Router, Route, IndexRoute, Redirect} from 'react-router';
 import Master from "../pages/master";
 import Main from '../pages/main';
+/*basis部分*/
+const Vehicle = (location, cb) => {
+  require.ensure([], require => {
+    cb(null, require('../pages/basis/vehicle').default);
+  })
+}
 /*system部分*/
 const Dictionary = (location, cb) => {
   require.ensure([], require => {
@@ -54,6 +60,7 @@ const Routes = () => {
   return (
     <Router history={browserHistory}>
       <Route path="/" component={Main}>
+        <Route path="vehicle" getComponent={Vehicle} name="车辆管理"/>
         <Route path="dictionary" getComponent={Dictionary} name="字典管理"/>
         <IndexRoute getComponent={ExmpIndex} name="首页"/>
         <Route path="map" getComponent={Baimap} name="搜索地图"/>

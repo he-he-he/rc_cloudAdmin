@@ -87,7 +87,6 @@ export default class VFormItem extends VFormBase{
 
     onChange(event){
         this.setState({value: event.currentTarget.value});
-        var value = {};
         this.props.fnChange({field: this.props.field, value: event.currentTarget.value, res: true});
     }
 }

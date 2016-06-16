@@ -45,8 +45,6 @@ CForm.propTypes = {
 };
 CForm.defaultProps = {
     className: "well well-sm",
-    columns: [],
-    buttons: [],
     fnSubmit: function(){},
     buttonsClassName: "col-xs-12 btn-toolbar text-right"
 };

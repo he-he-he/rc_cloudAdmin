@@ -8,20 +8,25 @@ export default class TableList extends Component {
         this.state = {
             columns: props.columns
         }
-        if(this.props.edite) 
-            this.state.columns.push(
-                {
-                    title: '操作', dataIndex: '', key: '', width: 100, render: (value, row, index) => {
-                        return (
-                            <div>
-                                <a href="javascript: void(0);" onClick={() => { this.onItemSelect(value); }}>编辑</a>
-                                &nbsp; &nbsp;
-                                <a href="javascript: void(0);" onClick={() => { this.onItemDelete(value); }}>删除</a>
-                            </div>
-                        );
-                    }
+        if(props.index){
+            this.state.columns.unshift({
+                title: "行号", width: 100,
+                render: (value, row, index) => { return this.makeIndex(index); }
+            });
+        }
+        if(props.edite) {
+            this.state.columns.push({
+                title: '操作', dataIndex: '', key: '', width: 100, render: (value, row, index) => {
+                    return (
+                        <div>
+                            <a href="javascript: void(0);" onClick={() => { this.onItemSelect(value); }}>编辑</a>
+                            &nbsp; &nbsp;
+                            <a href="javascript: void(0);" onClick={() => { this.onItemDelete(value); }}>删除</a>
+                        </div>
+                    );
                 }
-            );
+            });
+        }
     }
     render(){
         return (
@@ -41,6 +46,11 @@ export default class TableList extends Component {
             </div>
         );
     }
+    
+    makeIndex(index){
+        return index + 1 + (this.props.data.pageNo - 1) * this.props.data.pageSize;
+    }
+
     onPageChange(pageNo){
         this.props.fnPageChange(pageNo);
     }
@@ -55,6 +65,7 @@ export default class TableList extends Component {
     }
 }
 TableList.defaultProps = {
+    index: true,
     edite: false,
     fnPageChange: () => {},
     fnPageSelectChange: () => {},
