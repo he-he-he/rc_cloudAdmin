@@ -101,7 +101,7 @@ const menus = [
                     { id: 4, link: '', name: '售后车辆质量监控参数管理' }
                 ] 
             },
-            { id: 4, link: '/dictionary', name: '字典管理' },
+            { id: 4, link: '/dicts', name: '字典管理' },
             { id: 4, link: '', name: '公告通知管理' }
         ] 
     },

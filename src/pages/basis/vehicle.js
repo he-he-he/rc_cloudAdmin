@@ -2,7 +2,7 @@ import 'rc-dialog/assets/bootstrap.css';
 import React, {Component} from 'react';
 import {Tables, Boxs,Layout, Models, Forms} from '../../../components';
 import Dialog from 'rc-dialog';
-const {CForm, VForm} = Forms;
+const {CForm, VForm, BTForm} = Forms;
 const {Row,Col}=Layout;
 const {TableList} = Tables;
 const {Box} = Boxs;
@@ -15,25 +15,33 @@ export default class Vehicle extends Component {
                 isPaging: true,
                 pageNo: 1,
                 pageSize: 10,
+                orderBy: "id desc",
                 vinCode: "",
                 simNum: "",
-                carPlate: ""
+                carPlate: "",
+                start: "",
+                end: ""
             },
             search: {
                 columns: [
-                    {type: "text", labelText: "VIN号码", fieldName: "vinCode", defaultValue: ""},
-                    {type: "text", labelText: "SIM卡号", fieldName: "simNum", defaultValue: ""},
-                    {type: "text", labelText: "车牌号", fieldName: "carPlate", defaultValue: ""}
+                    {type: "select", filed: "type", defaultValue: "vinCode", inputList: [
+                        {text: "VIN号码", value: "vinCode"}, 
+                        {text: "SIM卡号", value: "simNum"}, 
+                        {text: "车牌号", value: "carPlate"}
+                    ]},
+                    {type: "text", placeHolder: "字段值", filed: "value"},
+                    {type: "datetime", filed: "start", placeHolder: "开始时间"},
+                    {type: "datetime", filed: "end", placeHolder: "结束时间"}
                 ],
                 buttons: [
-                    {type: "button", className:"danger  ", text: "添加", fnClick: () => { this.onItemAdd() }},
-                    {type: "submit", text: "搜索"}
+                    {type: "submit", className: "info", icon: "search", text: "搜索"}
                 ]
             },
             listColumns: [
-                { title: '标识', dataIndex: 'id', key: 'id' },
+                //{ title: '标识', dataIndex: 'id', key: 'id' },
                 { title: '车主ID', dataIndex: 'customerId', key: 'customerId' },
                 { title: 'VIN号码', dataIndex: 'vinCode', key: 'vinCode' },
+                { title: 'SIM卡号', dataIndex: 'simNum', key: 'simNum' },
                 { title: '车系', dataIndex: 'vehicle', key: 'vehicle' },
                 { title: '车型', dataIndex: 'carType', key: 'carType' },
                 { title: '车牌号', dataIndex: 'carPlate', key: 'carPlate' },
@@ -56,6 +64,7 @@ export default class Vehicle extends Component {
                 { title: '标识', field: 'id', value: '0', type: "hidden" },
                 { title: '车主ID', field: 'customerId', value: '', type: "text" },
                 { title: 'VIN号码', field: 'vinCode', value: '', type: "text" },
+                { title: 'SIM卡号', field: 'simNum', value: '', type: "text" },
                 { title: '车系', field: 'vehicle', value: '', type: "text" },
                 { title: '车型', field: 'carType', value: '', type: "text" },
                 { title: '车牌号', field: 'carPlate', value: '', type: "text" },
@@ -77,11 +86,16 @@ export default class Vehicle extends Component {
                         <TableList 
                             data={this.state.dataList} 
                             columns={this.state.listColumns} 
+
                             edite={true}
                             fnItemSelect={this.onItemUpdate.bind(this)} 
                             fnItemDelete={this.onItemDelete.bind(this)}
+
                             fnPageChange={this.onPageChange.bind(this)}
                             fnPageSelectChange={this.onPageSelectChange.bind(this)}
+
+                            fnAddBTClick={this.onItemAdd.bind(this)}
+                            fnDeleteBTClick={() => {alert("delete")}}
                         />
                         <Dialog  visible={this.state.dialogVisible}
                             animation="slide-fade"
@@ -100,9 +114,11 @@ export default class Vehicle extends Component {
     }
 
     updateData(param = {}){
-        param = Object.assign({}, this.state.listParam, param)
+        param = Object.assign({}, this.state.listParam, param);
+        console.log(param);
         $.ajax({
-            url: "/json/carinfo.json", //"/surface/carInfo",
+            type: "get",
+            url: "/carInfo",
             data: this.makeParam(param),
             dataType: 'json',
             success: (data) => {
@@ -116,6 +132,34 @@ export default class Vehicle extends Component {
         return para;
     }
 
+    addUpdate(obj){        
+        var type = this.state.dialogType;
+        $.ajax({
+            type: type == "new" ? "post" : "put",
+            url: "/carInfo" + (type == "new" ? "" : "/" + obj.id),
+            data: obj,
+            dataType: "json",
+            success: (data) => {
+                if(data.res){
+                    this.updateData(type == "new" ? {pageNo: 1} : {});
+                }
+            }
+        });
+    }
+
+    deleteData(id){
+        $.ajax({
+            type: "delete",
+            url: "/carInfo/" + id,
+            dataType: 'json',
+            success: (data) => {
+                if(data.res){
+                    this.updateData();
+                }
+            }
+        });
+    }
+
     makeFormColumns(obj = {}){
         var type = obj.id && obj.id > 0 ? "update" : "new";
         obj = obj || {};
@@ -124,22 +168,25 @@ export default class Vehicle extends Component {
             va.value = obj[va.field] !== null && obj[va.field] !== undefined ? obj[va.field] : "";
             return va;
         });
-        console.log(columns, obj);
         this.setState({formColumns: columns, dialogType: type});
     }
 
     onSearch(param){
-        param.pageNo = 1;
-        console.log(param);
+        var params = {};
+        params[param.type] = param.value;
+        params.start = param.start;
+        params.end = param.end;
+        params.pageNo = 1;
+        console.log(params);
+        this.updateData(params);
     }
 
 
     onItemAdd(){
-        this.makeFormColumns();
+        this.makeFormColumns({status: 1});
         this.dialogOpen();
     }
     onItemUpdate(obj){
-        console.log(obj)
         this.makeFormColumns(obj);
         this.dialogOpen();
     }
@@ -156,12 +203,15 @@ export default class Vehicle extends Component {
         }
     }
     onFormSubmit(values){
-        console.log(values);
+        console.log(JSON.stringify(values));
+        this.addUpdate(values);
+        this.dialogClose();
     }
 
 
     onItemDelete(obj){
-        console.log(obj);
+        if(confirm("确定要删除选中的车辆信息吗？"))
+            this.deleteData(obj);
     }
 
 

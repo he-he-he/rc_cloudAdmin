@@ -1,11 +1,23 @@
+import 'rc-calendar/assets/index.css';
 import React, {Component} from "react";
+import Calendar from "rc-calendar";
+import DatePicker from 'rc-calendar/lib/Picker';
 import CFormButton from "./cformButton";
+import DateTimeFormat from 'gregorian-calendar-format';
+
+const dateFormatter = new DateTimeFormat('yyyy-MM-dd');
 
 export default class CFormItem extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            calendarValue: props.defaultValue
+        }
+    }
     render(){
         return(
             <div className={"form-group " + this.props.className} style={{marginBottom: "5px"}}>
-                <label className={"control-label " + this.props.labelClassName} style={{padding: 0, whiteSpace: "nowrap"}}>{this.props.labelText}</label>
+                {/*<label className={"control-label " + this.props.labelClassName} style={{padding: 0, whiteSpace: "nowrap"}}>{this.props.labelText}</label>*/}
                 <div className={this.props.inputClassName}>
                 {this.makeInputElement()}
                 </div>
@@ -20,8 +32,9 @@ export default class CFormItem extends Component{
                     onChange={this.onChange.bind(this)}
                     type="text" 
                     className="form-control"
-                    placeHolder={this.props.inputPlaceHolder} 
+                    placeholder={this.props.placeHolder} 
                     defaultValue={this.props.defaultValue}
+                    style={{height: "36px"}}
                 />;
             case "textarea": 
                 return <textarea 
@@ -29,7 +42,7 @@ export default class CFormItem extends Component{
                     rows={this.props.inputRows} 
                     onChange={this.onChange.bind(this)}
                     className="form-control"
-                    placeHolder={this.props.inputPlaceHolder} 
+                    placeholder={this.props.placeHolder} 
                     defaultValue={this.props.defaultValue}
                     style={{resize: "none"}}
                 />;
@@ -39,6 +52,7 @@ export default class CFormItem extends Component{
                     onChange={this.onChange.bind(this)}
                     defaultValue={this.props.defaultValue}
                     className="form-control"
+                    style={{height: "36px"}}
                 >
                 {this.props.inputList.map((va, i) => <option key={"value_option_" + i} value={va.value}>{va.text}</option> )}
                 </select>
@@ -50,10 +64,10 @@ export default class CFormItem extends Component{
                             type="radio"
                             className="uniform"
                             onChange={this.onChange.bind(this)}
-                            name={this.props.fieldName}
+                            name={this.props.filed}
                             defaultValue={va.value}
                             defaultChecked={this.props.defaultValue == va.value}
-                            style={{marginTop: "10px"}}
+                            style={{marginTop: "10px", height: "36px"}}
                         /> {va.text} 
                     </label>
                 );
@@ -64,16 +78,39 @@ export default class CFormItem extends Component{
                             ref={"ctx_" + i}
                             type="checkbox"
                             onChange={this.onChange.bind(this)}
-                            name={this.props.fieldName}
+                            name={this.props.filed}
                             defaultValue={va.value}
                             defaultChecked={this.props.defaultValue && this.props.defaultValue.toString().split(",").indexOf(va.value.toString()) > -1}
-                            style={{marginTop: "10px"}}
+                            style={{marginTop: "10px", height: "36px"}}
                         /> {va.text} 
                     </label>
                 );
+            case "datetime": 
+                var calendar = <Calendar/>; 
+                return <DatePicker onChange={this.onCalendarChange.bind(this)} calendar={calendar}>
+                {
+                    ({value}) => <input 
+                        ref="ctx"
+                        onChange={this.onChange.bind(this)}
+                        type="text" 
+                        className="form-control"
+                        placeholder={this.props.placeHolder} 
+                        value={value && dateFormatter.format(value)}
+                        defaultValue={this.props.defaultValue}
+                        style={{height: "36px"}}
+                    />
+                }
+            </DatePicker>; 
             case "button": return <CFormButton {...this.props}/>;
             default: return "";
         }
+    }
+
+    onCalendarChange(value){
+        var va = {}, value = dateFormatter.format(value);
+        va[this.props.filed] = value;
+        this.setState({calendarValue: value});
+        this.props.fnChange(va);
     }
 
     onChange(){
@@ -94,21 +131,21 @@ export default class CFormItem extends Component{
             default: break;
         }
         var va = {};
-        va[this.props.fieldName] = value;
+        va[this.props.filed] = value;
         this.props.fnChange(va);
     }
 }
 CFormItem.defaultProps = {
-    className: "col-xs-12 col-md-6 col-lg-4",
+    className: "col-lg-2 col-md-4 col-xs-6", //col-xs-12 col-md-6 col-lg-4",
     labelText: "",
     labelClassName: "col-xs-3",
-    inputClassName: "col-xs-9", 
-    fieldName: "",
+    inputClassName: "", //"col-xs-9", 
+    filed: "",
 
     defaultValue: "", 
     type: "text", 
 
-    inputPlaceHolder: "", 
+    placeHolder: "", 
 
     inputRows: 5,
     inputCols: 30,

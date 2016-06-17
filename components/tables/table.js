@@ -1,13 +1,27 @@
 import React, {Component} from 'react';
 import Table from 'rc-table';
 import Pager from '../paginations/pager';
+import {BTForm} from "../form";
 
 export default class TableList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            columns: props.columns
+            columns: props.columns,
+            buttons: []
         }
+        if(props.fnAddBTClick) this.state.buttons.push({
+            className: "info",
+            icon: "plus",
+            text: "添加",
+            fnClick: props.fnAddBTClick
+        });
+        if(props.fnDeleteBTClick) this.state.buttons.push({
+            className: "danger",
+            icon: "times",
+            text: "删除",
+            fnClick: props.fnDeleteBTClick
+        });
         if(props.index){
             this.state.columns.unshift({
                 title: "行号", width: 100,
@@ -31,6 +45,7 @@ export default class TableList extends Component {
     render(){
         return (
             <div>
+                <BTForm buttons={this.state.buttons}/>
                 <Table columns={this.props.columns}
                     data={this.props.data.list}
                     rowKey={(record)=>record.id}
@@ -70,7 +85,10 @@ TableList.defaultProps = {
     fnPageChange: () => {},
     fnPageSelectChange: () => {},
     fnItemSelect: () => {},
-    fnItemDelete: () => {}
+    fnItemDelete: () => {},
+
+    fnAddBTClick: false,
+    fnDeleteBTClick: false
 };
 TableList.propTypes = {
     data: React.PropTypes.object.isRequired,

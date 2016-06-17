@@ -123,7 +123,7 @@ export default class Directary extends Component{
         param = Object.assign({}, this.state.params, param);
         $.ajax({
             type: "get",
-            url: "/surface/dictionary",
+            url: "/dictionary",
             data: this.makeParam(param),
             dataType: 'json',
             success: (data) => {
@@ -140,7 +140,7 @@ export default class Directary extends Component{
     getTypes(bo = false){
         $.ajax({
             type: "get",
-            url: "/surface/dictionary",
+            url: "/dictionary",
             data: {parentId: 0},
             dataType: 'json',
             success: (data) => {
@@ -166,7 +166,7 @@ export default class Directary extends Component{
         var type = this.state.dialogType;
         $.ajax({
             type: type == "new" ? "post" : "put",
-            url: "/surface/dictionary" + (type == "new" ? "" : "/" + obj.id),
+            url: "/dictionary" + (type == "new" ? "" : "/" + obj.id),
             data: obj,
             dataType: "json",
             success: (data) => {
@@ -180,7 +180,7 @@ export default class Directary extends Component{
     deleteData(id, bo){
         $.ajax({
             type: "delete",
-            url: "/surface/dictionary/" + id,
+            url: "/dictionary/" + id,
             dataType: 'json',
             success: (data) => {
                 if(data.res){

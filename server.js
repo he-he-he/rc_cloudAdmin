@@ -29,11 +29,10 @@ app.use(require('webpack-dev-middleware')(compiler, {
 }));
 
 app.use(require('webpack-hot-middleware')(compiler));
-
 app.use('/static', express.static('static'));
 
 // test
-app.get('/surface/dictionary', function (req, res) {
+app.get('/dictionary', function (req, res) {
   var param = "";
   if(req.param('isPaging')) param += "&isPaging=" + req.param('isPaging');
   if(req.param('pageNo')) param += "&pageNo=" + req.param('pageNo');
@@ -54,7 +53,7 @@ app.get('/surface/dictionary', function (req, res) {
     }
   });
 });
-app.delete("/surface/dictionary/:id", function(req, res){
+app.delete("/dictionary/:id", function(req, res){
   var param = "";
   if(req.param('id')) param += "/" + req.param('id');
   console.log(req.param("id"));
@@ -69,7 +68,7 @@ app.delete("/surface/dictionary/:id", function(req, res){
     }
   });
 });
-app.post("/surface/dictionary", function(req, res){
+app.post("/dictionary", function(req, res){
   var body = JSON.stringify(req.body);
   var option = {
     method: "post",
@@ -87,7 +86,7 @@ app.post("/surface/dictionary", function(req, res){
         res.end('a '+error)
     }
   });
-});app.put("/surface/dictionary/:id", function(req, res){
+});app.put("/dictionary/:id", function(req, res){
   var body = JSON.stringify(req.body);
   var param = "";
   if(req.param('id')) param += "/" + req.param('id');
@@ -108,6 +107,85 @@ app.post("/surface/dictionary", function(req, res){
     }
   });
 });
+/**/
+app.get('/carInfo', function (req, res) {
+  console.log(req.query);
+  var param = "";
+  if(req.param('isPaging')) param += "&isPaging=" + req.param('isPaging');
+  if(req.param('pageNo')) param += "&pageNo=" + req.param('pageNo');
+  if(req.param('pageSize')) param += "&pageSize=" + req.param('pageSize');
+  if(req.param('orderBy')) param += "&orderBy=" + req.param('orderBy');
+  if(req.param('vinCode')) param += "&vinCode=" + encodeURI(req.param('vinCode'));
+  if(req.param('simNum')) param += "&simNum=" + encodeURI(req.param('simNum'));
+  if(req.param('carPlate')) param += "&carPlate=" + encodeURI(req.param('carPlate'));
+  param = param.length > 0 ? "?" + param.substr(1) : "";
+  request.get(Api.testServer+'carInfo' + param, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        res.json(JSON.parse(body));
+    }
+    else if(!error && response.statusCode == 204){
+        res.json({list: [], totalCount: 0, pageSize: 10, pageNo: 1,});
+    }
+    else{
+        res.end('a '+error)
+    }
+  });
+});
+app.delete("/carInfo/:id", function(req, res){
+  var param = "";
+  if(req.param('id')) param += "/" + req.param('id');
+  console.log(req.param("id"));
+  request.delete(Api.testServer+'carInfo' + param, function (error, response, body) {
+    console.log(Api.testServer+'carInfo' + param, response.statusCode);
+    //res.json(JSON.parse({statusCode: response.statusCode, error: error, body: body}));
+    if (!error && response.statusCode == 200) {
+        res.json({res: true});
+    }
+    else{
+        res.end('a '+error)
+    }
+  });
+});
+app.post("/carInfo", function(req, res){
+  var body = JSON.stringify(req.body);
+  var option = {
+    method: "post",
+    url: Api.testServer+'carInfo',
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8"
+    },
+    body: body
+  };
+  request(option, function(error, response, body){
+    if (!error && response.statusCode == 200) {
+        res.json({res: true});
+    }
+    else{
+        res.end('a '+error)
+    }
+  });
+});app.put("/carInfo/:id", function(req, res){
+  var body = JSON.stringify(req.body);
+  var param = "";
+  if(req.param('id')) param += "/" + req.param('id');
+  var option = {
+    method: "put",
+    url: Api.testServer+'carInfo/' + param,
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8"
+    },
+    body: body
+  };
+  request(option, function(error, response, body){
+    if (!error && response.statusCode == 200) {
+        res.json({res: true});
+    }
+    else{
+        res.end(body);
+    }
+  });
+});
+/**/
 app.get('/rtGpsData', function (req, res) {
   var param = "";
   if(req.param('carCode')) param += "&carCode=" + req.param('carCode');
