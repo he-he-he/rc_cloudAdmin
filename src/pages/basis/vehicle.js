@@ -71,9 +71,6 @@ export default class Vehicle extends Component {
                 { title: '车牌号', field: 'carPlate', value: '', type: "text" },
                 { title: '车辆状态', field: 'status', value: '1', type: "select", list: [{text: "在线", value: 1}, {text: "离线", value: 0}] }
             ],
-            formButtons: [
-                {type: "submit", text: "确定", fnClick: () => {}}
-            ],
             dialogVisible: false,
             dialogType: "new"
         }
@@ -111,7 +108,7 @@ export default class Vehicle extends Component {
                             maskAnimation="fade"
                             onClose={this.dialogClose}
                             title={<div>{(this.state.dialogType == "new" ? "添加" : "修改") + "车辆信息"}</div>}>
-                            <VForm columns={this.state.formColumns} buttons={this.state.formButtons} fnSubmit={this.onFormSubmit}/>
+                            <VForm columns={this.state.formColumns} fnSubmit={this.onFormSubmit}/>
                         </Dialog>
                     </Box>
                 </Col>
@@ -124,7 +121,6 @@ export default class Vehicle extends Component {
 
     updateData(param = {}){
         param = Object.assign({}, this.state.listParam, param);
-        console.log(param);
         $.ajax({
             type: "get",
             url: "/carInfo",

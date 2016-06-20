@@ -1,4 +1,5 @@
 //如此混乱的文件夹
+export Button from "./buttons";
 
 //Form既封装Formsy的验证插件
 export Form from "./form";

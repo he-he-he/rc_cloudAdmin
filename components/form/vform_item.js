@@ -11,7 +11,10 @@ export default class VFormItem extends VFormBase{
     render(){
         return (
             <div className={"form-group " + this.props.className} style={{marginBottom: "5px", display: this.props.type == "hidden" ? "none" : "block"}}>
-                <label className={"text-right control-label " + this.props.labelClassName} style={{padding: 0, whiteSpace: "nowrap"}}>{this.props.title}</label>
+                <label className={"text-right control-label " + this.props.labelClassName} style={{padding: 0, whiteSpace: "nowrap"}}>
+                    <span className="cd9534f">{this.props.isrequired ? "*" : ""}</span>
+                    {this.props.title}
+                    </label>
                 <div className={this.props.inputClassName}>
                 {this.makeInputElement()}
                 </div>
