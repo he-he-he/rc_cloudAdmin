@@ -57,6 +57,13 @@ export default class Directary extends Component{
             dialogVisible: false,
             dialogType: "new"
         };
+
+        this.onItemAdd = this.onItemAdd.bind(this);
+        this.onItemUpdate = this.onItemUpdate.bind(this);
+        this.onItemDelete = this.onItemDelete.bind(this);
+        this.onPageChange = this.onPageChange.bind(this);
+        this.onPageSelectChange = this.onPageSelectChange.bind(this);
+        this.onFormSubmit = this.onFormSubmit.bind(this);
     }
     render(){
         return (
@@ -69,7 +76,7 @@ export default class Directary extends Component{
                                 list={this.state.menuList}
                                 active={this.state.active}
                                 fnTitleClick={() => { this.onMenuItemClick({parentId: ""}, -1); }}
-                                fnTitleBTClick={this.onItemAdd.bind(this, -1)}
+                                fnTitleBTClick={() => { this.onItemAdd(-1); }}
                                 fnItemClick={(item, index) => { this.onMenuItemClick(item, index); }}
                                 fnItemBTClick={(item, index) => { this.onItemDelete(item.id, true); }}
                             />
@@ -93,11 +100,11 @@ export default class Directary extends Component{
                                 <TableList 
                                     data={this.state.list} 
                                     columns={this.state.listColumns}
-                                    edite={true}
-                                    fnItemSelect={this.onItemUpdate.bind(this)} 
-                                    fnItemDelete={this.onItemDelete.bind(this)}
-                                    fnPageChange={this.onPageChange.bind(this)}
-                                    fnPageSelectChange={this.onPageSelectChange.bind(this)}
+                                    edite={true} 
+                                    fnItemSelect={this.onItemUpdate} 
+                                    fnItemDelete={this.onItemDelete}
+                                    fnPageChange={this.onPageChange}
+                                    fnPageSelectChange={this.onPageSelectChange}
                                 />
                             </div>
                             <span className="clearfix"/>
@@ -106,9 +113,9 @@ export default class Directary extends Component{
                         <Dialog ref="dialog" visible={this.state.dialogVisible}
                             animation="slide-fade"
                             maskAnimation="fade"
-                            onClose={this.dialogClose.bind(this)}
+                            onClose={this.dialogClose}
                             title={<div>{(this.state.dialogType == "new" ? "添加新" : "修改") + "字典"}</div>}>
-                            <VForm columns={this.state.formColumns} buttons={this.state.formButtons} fnSubmit={this.onFormSubmit.bind(this)}/>
+                            <VForm columns={this.state.formColumns} buttons={this.state.formButtons} fnSubmit={this.onFormSubmit}/>
                         </Dialog>
                     </Box>
                 </Col>

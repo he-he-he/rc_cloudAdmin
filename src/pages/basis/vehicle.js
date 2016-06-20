@@ -2,6 +2,7 @@ import 'rc-dialog/assets/bootstrap.css';
 import React, {Component} from 'react';
 import {Tables, Boxs,Layout, Models, Forms} from '../../../components';
 import Dialog from 'rc-dialog';
+
 const {CForm, VForm, BTForm} = Forms;
 const {Row,Col}=Layout;
 const {TableList} = Tables;
@@ -76,33 +77,41 @@ export default class Vehicle extends Component {
             dialogVisible: false,
             dialogType: "new"
         }
+
+        this.onSearch = this.onSearch.bind(this);
+        this.onItemUpdate = this.onItemUpdate.bind(this);
+        this.onItemDelete = this.onItemDelete.bind(this);
+        this.onPageChange = this.onPageChange.bind(this);
+        this.onPageSelectChange = this.onPageSelectChange.bind(this);
+        this.onItemAdd = this.onItemAdd.bind(this);
+        this.onDeleteAll = this.onDeleteAll.bind(this);
+        this.dialogClose = this.dialogClose.bind(this);
+        this.onFormSubmit = this.onFormSubmit.bind(this);
     }
     render() {
         return (
             <Row>
                 <Col>
                     <Box title="车辆信息管理">
-                        <CForm {...this.state.search} fnSubmit={this.onSearch.bind(this)}/>
+                        <CForm {...this.state.search} fnSubmit={this.onSearch}/>
                         <TableList 
                             data={this.state.dataList} 
                             columns={this.state.listColumns} 
-
                             edite={true}
-                            fnItemSelect={this.onItemUpdate.bind(this)} 
-                            fnItemDelete={this.onItemDelete.bind(this)}
-
-                            fnPageChange={this.onPageChange.bind(this)}
-                            fnPageSelectChange={this.onPageSelectChange.bind(this)}
-
-                            fnAddBTClick={this.onItemAdd.bind(this)}
-                            fnDeleteBTClick={() => {alert("delete")}}
+                            fnItemSelect={this.onItemUpdate} 
+                            fnItemDelete={this.onItemDelete}
+                            fnPageChange={this.onPageChange}
+                            fnPageSelectChange={this.onPageSelectChange}
+                            fnCheckSelect={true}
+                            fnAddBTClick={this.onItemAdd}
+                            fnDeleteBTClick={this.onDeleteAll}
                         />
                         <Dialog  visible={this.state.dialogVisible}
                             animation="slide-fade"
                             maskAnimation="fade"
-                            onClose={this.dialogClose.bind(this)}
+                            onClose={this.dialogClose}
                             title={<div>{(this.state.dialogType == "new" ? "添加" : "修改") + "车辆信息"}</div>}>
-                            <VForm columns={this.state.formColumns} buttons={this.state.formButtons} fnSubmit={this.onFormSubmit.bind(this)}/>
+                            <VForm columns={this.state.formColumns} buttons={this.state.formButtons} fnSubmit={this.onFormSubmit}/>
                         </Dialog>
                     </Box>
                 </Col>
@@ -147,10 +156,10 @@ export default class Vehicle extends Component {
         });
     }
 
-    deleteData(id){
+    deleteData(ids){
         $.ajax({
             type: "delete",
-            url: "/carInfo/" + id,
+            url: "/carInfo/" + ids,
             dataType: 'json',
             success: (data) => {
                 if(data.res){
@@ -208,12 +217,16 @@ export default class Vehicle extends Component {
         this.dialogClose();
     }
 
-
+    onDeleteAll(array){
+        var obj = array.map((va) => va.id).join(",");
+        console.log(obj);
+        if(confirm("确定要删除选中的车辆信息吗？"))
+            this.deleteData(obj);
+    }
     onItemDelete(obj){
         if(confirm("确定要删除选中的车辆信息吗？"))
             this.deleteData(obj);
     }
-
 
     onPageChange(pageNo){
         var param = Object.assign({ }, this.state.listParam, {pageNo: pageNo});

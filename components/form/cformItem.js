@@ -13,6 +13,9 @@ export default class CFormItem extends Component{
         this.state = {
             calendarValue: props.defaultValue
         }
+
+        this.onCalendarChange = this.onCalendarChange.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
     render(){
         return(
@@ -29,7 +32,7 @@ export default class CFormItem extends Component{
             case "text": 
                 return <input 
                     ref="ctx"
-                    onChange={this.onChange.bind(this)}
+                    onChange={this.onChange}
                     type="text" 
                     className="form-control"
                     placeholder={this.props.placeHolder} 
@@ -40,7 +43,7 @@ export default class CFormItem extends Component{
                 return <textarea 
                     ref="ctx"
                     rows={this.props.inputRows} 
-                    onChange={this.onChange.bind(this)}
+                    onChange={this.onChange}
                     className="form-control"
                     placeholder={this.props.placeHolder} 
                     defaultValue={this.props.defaultValue}
@@ -49,7 +52,7 @@ export default class CFormItem extends Component{
             case "select":
                 return <select
                     ref="ctx"
-                    onChange={this.onChange.bind(this)}
+                    onChange={this.onChange}
                     defaultValue={this.props.defaultValue}
                     className="form-control"
                     style={{height: "36px"}}
@@ -63,7 +66,7 @@ export default class CFormItem extends Component{
                             ref={"ctx_" + i}
                             type="radio"
                             className="uniform"
-                            onChange={this.onChange.bind(this)}
+                            onChange={this.onChange}
                             name={this.props.filed}
                             defaultValue={va.value}
                             defaultChecked={this.props.defaultValue == va.value}
@@ -77,7 +80,7 @@ export default class CFormItem extends Component{
                         <input 
                             ref={"ctx_" + i}
                             type="checkbox"
-                            onChange={this.onChange.bind(this)}
+                            onChange={this.onChange}
                             name={this.props.filed}
                             defaultValue={va.value}
                             defaultChecked={this.props.defaultValue && this.props.defaultValue.toString().split(",").indexOf(va.value.toString()) > -1}
@@ -87,11 +90,11 @@ export default class CFormItem extends Component{
                 );
             case "datetime": 
                 var calendar = <Calendar/>; 
-                return <DatePicker onChange={this.onCalendarChange.bind(this)} calendar={calendar}>
+                return <DatePicker onChange={this.onCalendarChange} calendar={calendar}>
                 {
                     ({value}) => <input 
                         ref="ctx"
-                        onChange={this.onChange.bind(this)}
+                        onChange={this.onChange}
                         type="text" 
                         className="form-control"
                         placeholder={this.props.placeHolder} 

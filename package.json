@@ -41,6 +41,7 @@
     "webpack-hot-middleware": "^2.10.0"
   },
   "dependencies": {
+    "antd": "^1.5.0",
     "chart.js": "^2.1.4",
     "formsy-react": "^0.18.0",
     "rc-calendar": "^5.5.6",

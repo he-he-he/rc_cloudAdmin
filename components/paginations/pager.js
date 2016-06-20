@@ -3,8 +3,12 @@ import React, {Component} from 'react';
 import Pagination from 'rc-pagination';
 
 class Pager extends Component {
+    constructor(){
+        super();
+        this.onChange = this.onChange.bind(this);
+    }
     render() {
-        const {total, current, pageSize,onChange,onSelectChange} = this.props;
+        const {total, current, pageSize, onSelectChange} = this.props;
         return (
             <div className="row">
                 <div className=" col-md-2">
@@ -20,13 +24,22 @@ class Pager extends Component {
                         total={total}
                         pageSize={pageSize}
                         current={current}
-                        onChange={onChange}
+                        onChange={this.onChange}
                         showQuickJump
                     />
                 </div>
             </div>
-
         );
+    }
+    componentWillUnmount(){
+        clearTimeout(this.tm);
+    }
+
+    onChange(pgeNo){
+        clearTimeout(this.tm);
+        this.tm = setTimeout(() => {
+            this.props.onChange(pgeNo);
+        }, 200)
     }
 }
 Pager.protTypes={

@@ -14,5 +14,5 @@ export default class BTForm extends Component{
 BTForm.defaultProps = {
     columns: [],
     buttons: [],
-    className: "col-xs-12 form-group"
+    className: "", //"col-xs-12 form-group"
 };

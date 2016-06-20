@@ -6,17 +6,20 @@ import VFormButton from "./vform_buttons";
 export default class VForm extends VFormBase{
     constructor(props){
         super(props);
+
+        this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
     render(){
         return (
             <div className={this.props.className} style={{lineHeight: "34px"}}>
-                {this.props.columns.map((item, i) => <VFormItem key={"item" + i} {...item} fnChange={this.onChange.bind(this)}/>)}
+                {this.props.columns.map((item, i) => <VFormItem key={"item" + i} {...item} fnChange={this.onChange}/>)}
                 <div className="clearfix"/>
                 <div className="form-group col-xs-12" style={{padding: "0 15px"}}>
                     <label className="col-xs-2"/>
                     <div className="col-xs-9">
                     {this.props.buttons.map((item, i) => 
-                        <VFormButton key={"button_" + i} {...item} fnClick={item.type == "submit" ? this.onSubmit.bind(this) : item.fnClick}/>
+                        <VFormButton key={"button_" + i} {...item} fnClick={item.type == "submit" ? this.onSubmit : item.fnClick}/>
                     )}
                     </div>
                 </div>

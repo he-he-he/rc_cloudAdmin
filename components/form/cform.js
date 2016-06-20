@@ -12,17 +12,20 @@ export default class CForm extends Component{
             var o = this.props.columns[i];
             this.state.values[o.filed] = o.defaultValue ? o.defaultValue : "";
         }
+        
+        this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
     render(){
         var bts = [];
         return (
             <div className={this.props.className} style={{lineHeight: "34px"}}>
-                {this.props.columns.map((item, i) => <CFormItem key={"item" + i} {...item} fnChange={item.fnChange ? item.fnChange : this.onChange.bind(this)}/>)}
+                {this.props.columns.map((item, i) => <CFormItem key={"item" + i} {...item} fnChange={item.fnChange ? item.fnChange : this.onChange}/>)}
                 {/*<div className="clearfix"/>*/}
                 {/*<div className="form-group" style={{padding: "0 15px"}}>*/}
                     {/*<div className={this.props.buttonsClassName}>*/}
                         {this.props.buttons.map((item, i) => 
-                            <CFormButton key={"button_" + i} {...item} fnClick={item.type == "submit" ? this.onSubmit.bind(this) : item.fnClick}/>
+                            <CFormButton key={"button_" + i} {...item} fnClick={item.type == "submit" ? this.onSubmit : item.fnClick}/>
                         )}
                     {/*</div>*/}
                 {/*</div>*/}

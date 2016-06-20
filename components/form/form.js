@@ -13,6 +13,8 @@ export default class MyForm extends Component {
         this.disableButton = this.disableButton.bind(this);
         for(var i = 0, z = props.columns.length; i < z; i++)
             this.state.values[props.columns[i].dataField] = props.columns[i];
+        
+        this.onChange = this.onChange.bind(this);
     }
 
     enableButton() {
@@ -38,7 +40,7 @@ export default class MyForm extends Component {
                         validationError={item.validError} 
                         required={item.require} 
                         type={item.type}
-                        fnChange={this.onChange.bind(this)}
+                        fnChange={this.onChange}
                     />
                 )}
                 <div className="form-group">

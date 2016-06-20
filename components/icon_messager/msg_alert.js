@@ -7,7 +7,7 @@ export default class MsgItem extends Item{
     }
     render(){
         return (
-            <a href="javascript: void(0);" onClick={this.props.click.bind(this, this.props.index)}>
+            <a href="javascript: void(0);" onClick={() => { this.props.click(this.props.index); }}>
                 <span className={"label label-" + this.props.type}><i className={"fa fa-" + this.props.icon}></i></span>
                 <span className="body">
                     <span className="message"> {this.props.message} </span>

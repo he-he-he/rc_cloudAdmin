@@ -56,10 +56,7 @@ app.get('/dictionary', function (req, res) {
 app.delete("/dictionary/:id", function(req, res){
   var param = "";
   if(req.param('id')) param += "/" + req.param('id');
-  console.log(req.param("id"));
   request.delete(Api.testServer+'dictionary' + param, function (error, response, body) {
-    console.log(Api.testServer+'dictionary' + param, response.statusCode);
-    //res.json(JSON.parse({statusCode: response.statusCode, error: error, body: body}));
     if (!error && response.statusCode == 200) {
         res.json({res: true});
     }
@@ -109,7 +106,6 @@ app.post("/dictionary", function(req, res){
 });
 /**/
 app.get('/carInfo', function (req, res) {
-  console.log(req.query);
   var param = "";
   if(req.param('isPaging')) param += "&isPaging=" + req.param('isPaging');
   if(req.param('pageNo')) param += "&pageNo=" + req.param('pageNo');
@@ -134,10 +130,7 @@ app.get('/carInfo', function (req, res) {
 app.delete("/carInfo/:id", function(req, res){
   var param = "";
   if(req.param('id')) param += "/" + req.param('id');
-  console.log(req.param("id"));
   request.delete(Api.testServer+'carInfo' + param, function (error, response, body) {
-    console.log(Api.testServer+'carInfo' + param, response.statusCode);
-    //res.json(JSON.parse({statusCode: response.statusCode, error: error, body: body}));
     if (!error && response.statusCode == 200) {
         res.json({res: true});
     }

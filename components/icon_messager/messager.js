@@ -49,7 +49,7 @@ export default class HeaderMessager extends Component{
                 case "tasks": return (<Scroll {...va}/>);
                 default: return false;
             }
-        }).map((va, i) => <li key={i} onClick={this.fnClick.bind(this, this.props.type, i, this.props.param)}>{va}</li>);
+        }).map((va, i) => <li key={i} onClick={() => { this.fnClick(this.props.type, i, this.props.param); }}>{va}</li>);
     }
     fnClick(type, index, param){
         this.props.click(type, index, param);
